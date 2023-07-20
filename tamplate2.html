@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Survey Pelanggan</title>
+    <link rel="stylesheet" type="text/css" href="tamplate2.css" />
+    
+    <script>
+      change = 0
+      gaji = 0
+      submit = 0
+      produk = []
+      overAge = false //umur
+      tetap = false //karyawan tetap bukan
+      under1 = false //masa kerja
+      under3 = false //gaji atas atau bawah 3
+      under5 = false //gaji atas atau bawah 5
+      nikah = false //apa sudah nikah
+      anak = false //untuk nanya tabungan anak = TRM
+      rumah = false //beli rumah
+      renovasi = false //renovasi rumah
+      kendaraan = false //beli kendaraan
+      
+
+      function showQuestionGeneral(id){
+        if (id == 'over_21'){
+          overAge = true
+          document.getElementById("pertanyaanDasar").style.display = 'block';
+          document.getElementById("pertanyaanDetail").style.display = 'none'
+          document.getElementById("div_statusPegawai").style.display = 'block';
+          document.getElementById("div_masaKerja").style.display = 'none';
+          document.getElementById("div_Gaji").style.display = 'none';
+          document.getElementById("btn_submit").disabled = true;
+          document.getElementById("btn_submit").style.backgroundColor = "#9c9999";
+          if (tetap == true){
+            document.getElementById("pertanyaanDetail").style.display = 'block';
+          }
+        } else{
+          overAge = false
+          document.getElementById("pertanyaanDasar").style.display = 'none';
+          document.getElementById("pertanyaanDetail").style.display = 'none'
+          document.getElementById("btn_submit").disabled = false;
+          document.getElementById("btn_submit").style.backgroundColor = "#4bc970";
+        }
+      }
+
+      function showQuestionMasaKerja(id){
+        if (id == 'pegawai_tetap'){
+          tetap = true
+          document.getElementById("pertanyaanDasar").style.display = 'block';
+          document.getElementById("div_statusPegawai").style.display = 'block';
+          document.getElementById("div_masaKerja").style.display = 'block';
+          document.getElementById("div_Gaji").style.display = 'none';
+          document.getElementById("btn_submit").disabled = true;
+          document.getElementById("btn_submit").style.backgroundColor = "#9c9999";
+        } else if (id == 'pegawai_kontrak'){ 
+          tetap = false
+          document.getElementById("pertanyaanDasar").style.display = 'block';
+          document.getElementById("div_statusPegawai").style.display = 'block';
+          document.getElementById("div_masaKerja").style.display = 'none';
+          document.getElementById("div_Gaji").style.display = 'block';
+          document.getElementById("radio_over3").style.display = 'none';
+          document.getElementById("radio_under3").style.display = 'none';
+          document.getElementById("radio_under5").style.display = 'block';
+          document.getElementById("pertanyaanDetail").style.display = 'none';
+          document.getElementById("btn_submit").disabled = true;
+          document.getElementById("btn_submit").style.backgroundColor = "#9c9999";
+        }
+      }
+
+      function showQuestionGajiTetap(id){
+        if (id == 'under_1'){
+          under1 = true
+          document.getElementById("div_Gaji").style.display = 'block';
+          document.getElementById("radio_over3").style.display = 'none';
+          document.getElementById("radio_under3").style.display = 'none';
+          document.getElementById("radio_under5").style.display = 'block';
+          document.getElementById("pertanyaanDetail").style.display = 'none';
+          document.getElementById("div_menikah").style.display = 'none'; 
+          document.getElementById("div_anak").style.display = 'none';
+          document.getElementById("div_memilikiRumah").style.display = 'none';
+          document.getElementById("div_renovasiRumah").style.display = 'none';
+          document.getElementById("div_Kendaraan").style.display = 'none';
+          document.getElementById("div_pilihanRekomendasi").style.display = 'none';
+        }else if (id == 'over_1'){
+          under1 = false
+          document.getElementById("div_Gaji").style.display = 'block';
+          document.getElementById("radio_over3").style.display = 'block';
+          document.getElementById("radio_under3").style.display = 'block';
+          document.getElementById("radio_under5").style.display = 'none';
+          document.getElementById("btn_submit").disabled = true;
+          document.getElementById("btn_submit").style.backgroundColor = "#9c9999";
+        }
+      }
+
+      function radioOver3(id){
+        if (id == "over_3"){
+          under3 = false
+          gaji = 3
+        } else if (id == "under_3"){
+          under3 = true
+        }
+
+        if (tetap == true){
+          if(under1 == false){
+            if(under3 == false){
+              document.getElementById("pertanyaanDetail").style.display = 'block';
+              document.getElementById("div_menikah").style.display = 'block'; //KSM
+              document.getElementById("div_anak").style.display = 'block'; //TRM
+              document.getElementById("div_memilikiRumah").style.display = 'none';
+              document.getElementById("div_renovasiRumah").style.display = 'none';
+              document.getElementById("div_Kendaraan").style.display = 'none';
+              document.getElementById("div_pilihanRekomendasi").style.display = 'none';
+              document.getElementById("btn_submit").disabled = true;
+          document.getElementById("btn_submit").style.backgroundColor = "#9c9999";
+            } else if(under3 == true){ //auto KSM
+              document.getElementById("pertanyaanDetail").style.display = 'none';
+              document.getElementById("div_menikah").style.display = 'none'; 
+              document.getElementById("div_anak").style.display = 'none';
+              document.getElementById("div_memilikiRumah").style.display = 'none';
+              document.getElementById("div_renovasiRumah").style.display = 'none';
+              document.getElementById("div_Kendaraan").style.display = 'none';
+              document.getElementById("div_pilihanRekomendasi").style.display = 'none';
+              document.getElementById("btn_submit").disabled = false;
+              document.getElementById("btn_submit").style.backgroundColor = "#4bc970";
+            }
+          }
+        }
+      }
+
+      function radioOver5(id){
+        if (id == "over_5"){
+          under5 = false
+          gaji = 5
+        } else if (id == "under_5"){
+          under5 = true
+        }
+
+        if (tetap == true){
+          if (under1 == false){
+            document.getElementById("btn_submit").disabled = true;
+            document.getElementById("btn_submit").style.backgroundColor = "#9c9999";
+            if (under5 == false){
+              document.getElementById("pertanyaanDetail").style.display = 'block';
+              document.getElementById("div_menikah").style.display = 'block'; 
+              document.getElementById("div_anak").style.display = 'block';
+              document.getElementById("div_memilikiRumah").style.display = 'block';
+              document.getElementById("div_renovasiRumah").style.display = 'block';
+              document.getElementById("div_Kendaraan").style.display = 'block';
+              document.getElementById("div_pilihanRekomendasi").style.display = 'none';
+            } 
+          }else{
+            document.getElementById("btn_submit").disabled = false;
+            document.getElementById("btn_submit").style.backgroundColor = "#4bc970";
+          }
+        } else {
+          document.getElementById("btn_submit").disabled = false;
+          document.getElementById("btn_submit").style.backgroundColor = "#4bc970";
+        }
+      }
+
+      function ubahSubmitIjo(){
+        if ((gaji == 3 && change == 2) || (gaji == 5 && change == 5)){
+          document.getElementById("btn_submit").disabled = false;
+          document.getElementById("btn_submit").style.backgroundColor = "#4bc970";
+        }
+      }
+
+      function radioNikah(id){
+        if (id == "ya_menikah"){
+          nikah = true
+        } else if (id == "tidak_menikah"){
+          nikah = false
+        }
+        change = 1
+      }
+
+      function radioAnak(id){
+        if (id == "ya_anak"){
+          anak = true
+        } else if (id == "tidak_anak"){
+          anak = false
+        }
+        change = 2
+        ubahSubmitIjo()
+      }
+
+      function radioRumah(id){
+        if (id == "ya_rumah"){
+          rumah = true
+        } else if (id == "tidak_rumah"){
+          rumah = false
+        }
+        change = 3
+      }
+
+      function radioRenovasi(id){
+        if (id == "ya_renov"){
+          renovasi = true
+        } else if (id == "tidak_renov"){
+          renovasi = false
+        }
+        change = 4
+      }
+
+      function radioKendaraan(id){
+        if (id == "ya_kendaraan"){
+          kendaraan = true
+        } else if (id == "tidak_kendaraan"){
+          kendaraan = false
+        }
+        change = 5
+        ubahSubmitIjo()
+      }
+      
+      function pushArray3(){
+        if (nikah == false){
+          produk.push("KSM")
+        } 
+        if (anak == true){
+          produk.push("TRM")
+        }
+        if (produk.length == 0){
+          produk.push("TRM")
+        }
+      }
+      function pushArray(){
+        if (nikah == false || renovasi == true){
+          produk.push("KSM")
+        }
+        if (rumah == true){
+          produk.push("KPR")
+        }
+        if (anak == true){
+          produk.push("TRM")
+        }
+        if (kendaraan == true){
+          produk.push("KKB")
+        }
+        if (renovasi == false && rumah == false && anak == false && kendaraan == false){
+          produk.push("KK")
+        }
+      }
+      function chooseProdcutList(){
+        console.log("masuk choose product list")
+        if  (overAge == true){
+          if (tetap == true){
+            if (under3 == true){
+              produk.push("TRM")
+            }
+            else if (under3 == false && gaji == 3){
+              pushArray3()
+            }
+            else if (under5 == false && gaji == 5){
+              pushArray()
+            }
+          } else {
+            if(under5 == true){
+              produk.push("TRM")
+            } else{
+              produk.push("KK")
+            }
+          }
+        } else{
+          produk.push("TRM")
+        }
+      }
+
+      function chooseProduct(id){
+        produk = [id];
+        submit = 1;
+      }
+
+      function movePage(){
+        console.log("masukmovePage");
+        console.log(produk.length, change, gaji, overAge, tetap, under1, under3, under5, nikah, anak, rumah, renovasi, kendaraan);
+        console.log(produk[0]);
+        localStorage.setItem('user_prodakTerpilih', produk[0]);
+        return window.location.assign('RecommendPage.html');
+        
+        //reset submit
+        produk = [];
+        submit = 0;
+      }
+      
+      function get_submit(){
+        console.log("cek masuk submit!");
+        console.log(submit)
+        if (submit != 1){
+          chooseProdcutList();
+        }
+        produk = Array.from(new Set(produk))
+        console.log("prodak list" + produk);
+        if(produk.length == 1){
+          console.log("cek masuk submit! if 1");
+          movePage();
+        } else {
+          console.log("cek masuk submit! if 2");
+          console.log(produk);
+          console.log(typeof produk[0]);
+          document.getElementById("basicInfo").style.display = 'none';
+          document.getElementById("pertanyaanDasar").style.display = 'none';
+          document.getElementById("pertanyaanDetail").style.display = 'block';
+          document.getElementById("div_menikah").style.display = 'none'; 
+          document.getElementById("div_anak").style.display = 'none';
+          document.getElementById("div_memilikiRumah").style.display = 'none';
+          document.getElementById("div_renovasiRumah").style.display = 'none';
+          document.getElementById("div_Kendaraan").style.display = 'none';
+          document.getElementById("div_pilihanRekomendasi").style.display = 'block';
+          document.getElementById("radio_TRM").style.display = 'none';
+          document.getElementById("radio_KPR").style.display = 'none';
+          document.getElementById("radio_KSM").style.display = 'none';
+          document.getElementById("radio_KKB").style.display = 'none';
+          for (let i = 0; i < produk.length; i++) {
+            console.log(typeof produk[i]);
+            console.log("===========")
+            if(produk[i] != "KK"){
+              produk_terpilih = "radio_"+produk[i];
+              document.getElementById(produk_terpilih).style.display = 'block';
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-md-12">
+        <form>
+          <h1> Survey Pelanggan </h1>
+          
+          <!-- profile awal nasabah -->
+          <fieldset id="basicInfo">
+            <legend><span class="number">1</span>Your Basic Info</legend>
+          
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="user_name">
+          
+            <label for="tel">No Handphone</label>
+            <input type="tel" id="noHp" name="user_noHp" placeholder="081234567890" minlength="11" maxlength="13">
+          
+            <label>Umur:</label>
+            <input type="radio" id="under_21" value="under_21" name="user_age" onchange="showQuestionGeneral('under_21'); return false;"><label for="under_21" class="light">Dibawah 21</label><br>
+            <input type="radio" id="over_21" value="over_21" name="user_age" onchange="showQuestionGeneral('over_21'); return false;"><label for="over_21" class="light">21 Keatas</label>
+          </fieldset>
+          
+          <!-- pertanyaan dasar rekomendasi -->
+          <fieldset id="pertanyaanDasar" style="display: none;">
+            <legend><span class="number">2</span>Your General Profile</legend>
+            
+            <div id= "div_statusPegawai" style="margin-bottom: 15px;">
+              <label>Status Pegawai</label>
+              <input type="radio" id="pegawai_tetap" value="pegawai_tetap" name="user_statusPegawai" onchange="showQuestionMasaKerja('pegawai_tetap'); return false;"><label for="pegawai_tetap" class="light">Pegawai Tetap</label><br>
+              <input type="radio" id="pegawai_kontrak" value="pegawai_kontrak" name="user_statusPegawai" onchange="showQuestionMasaKerja('pegawai_kontrak'); return false;"><label for="pegawai_kontrak" class="light">Pegawai Kontrak</label>
+            </div>
+
+            <div id="div_masaKerja" style="margin-bottom: 15px;">
+              <label>Masa Kerja</label>
+              <input type="radio" id="under_1" value="under_1" name="user_masaKerja" onchange="showQuestionGajiTetap('under_1'); return false;"><label for="under_1" class="light">Dibawah 1 Tahun</label><br>
+              <input type="radio" id="over_1" value="over_1" name="user_masaKerja" onchange="showQuestionGajiTetap('over_1'); return false;"><label for="over_1" class="light">Diatas 1 Tahun</label>
+            </div>
+
+            <div id="div_Gaji" style="margin-bottom: 15px;">
+              <label>Gaji per bulan</label>
+              <div id="radio_over5">
+                <input type="radio" id="over_5" value="over_5" name="user_gaji" onchange="radioOver5('over_5'); return false;"><label for="over_5" class="light">5jt Keatas</label><br>
+              </div>
+              <div id="radio_over3">
+                <input type="radio" id="over_3" value="over_3" name="user_gaji" onchange="radioOver3('over_3'); return false;"><label for="over_3" class="light">3jt Keatas</label><br>
+              </div>
+              <div id="radio_under5">
+                <input type="radio" id="under_5" value="under_5" name="user_gaji" onchange="radioOver5('under_5'); return false;"><label for="under_5" class="light">Dibawah 5jt</label><br>
+              </div>
+              <div id="radio_under3">
+                <input type="radio" id="under_3" value="under_3" name="user_gaji" onchange="radioOver3('under_3'); return false;"><label for="under_3" class="light">Dibawah 3jt</label><br>
+              </div>
+            </div>
+
+          </fieldset>
+
+          <!-- pertanyaan mendalam pegawai tetap -->
+          <fieldset id="pertanyaanDetail" style="display: none;">
+            <legend><span class="number">3</span>Your Details Profile</legend>
+            
+            <div id= "div_menikah" style="margin-bottom: 15px;">
+              <label>Apakah anda sudah menikah?</label>
+              <input type="radio" id="ya_menikah" value="ya_menikah" name="user_statusNikah" onchange="radioNikah('ya_menikah'); return false;"><label for="ya_menikah" class="light">Sudah</label><br>
+              <input type="radio" id="tidak_menikah" value="tidak_menikah" name="user_statusNikah" onchange="radioNikah('tidak_menikah'); return false;"><label for="tidak_menikah" class="light">Belum</label>
+            </div>
+
+            <div id= "div_anak" style="margin-bottom: 15px;">
+              <label>Apakah anda berencana memiliki tabungan anak?</label>
+              <input type="radio" id="ya_anak" value="ya_anak" name="user_tabunganAnak" onchange="radioAnak('ya_anak'); return false;"><label for="ya_anak" class="light">Ya</label><br>
+              <input type="radio" id="tidak_anak" value="tidak_anak" name="user_tabunganAnak" onchange="radioAnak('tidak_anak'); return false;"><label for="tidak_anak" class="light">Tidak</label>
+            </div>
+
+            <div id="div_memilikiRumah" style="margin-bottom: 15px;">
+              <label>Apakah anda sudah memiliki rumah?</label>
+              <input type="radio" id="ya_rumah" value="ya_rumah" name="user_kepemilikanRumah" onchange="radioRumah('ya_rumah'); return false;"><label for="ya_rumah" class="light">Sudah</label><br>
+              <input type="radio" id="tidak_rumah" value="tidak_rumah" name="user_kepemilikanRumah" onchange="radioRumah('tidak_rumah'); return false;"><label for="tidak_rumah" class="light">Belum</label>
+            </div>
+
+            <div id="div_renovasiRumah" style="margin-bottom: 15px;">
+              <label>Apakah anda berencana merenovasi rumah?</label>
+              <input type="radio" id="ya_renov" value="ya_renov" name="user_renovRumah" onchange="radioRenovasi('ya_renov'); return false;"><label for="ya_renov" class="light">Ya</label><br>
+              <input type="radio" id="tidak_renov" value="tidak_renov" name="user_renovRumah" onchange="radioRenovasi('tidak_renov'); return false;"><label for="tidak_renov" class="light">Tidak</label>
+            </div>
+
+            <div id="div_Kendaraan" style="margin-bottom: 15px;">
+              <label>Apakah anda berencana membeli atau mengganti mobil?</label>
+              <input type="radio" id="ya_kendaraan" value="ya_kendaraan" name="user_kendaraan" onchange="radioKendaraan('ya_kendaraan'); return false;"><label for="ya_kendaraan" class="light">Ya</label><br>
+              <input type="radio" id="tidak_kendaraan" value="tidak_kendaraan" name="user_kendaraan" onchange="radioKendaraan('tidak_kendaraan'); return false;"><label for="tidak_kendaraan" class="light">Tidak</label>
+            </div>
+
+            <div id="div_pilihanRekomendasi" style="margin-bottom: 15px;">
+              <label>Bagi anda, manakah yang lebih urgent?</label>
+              <div id="radio_TRM">
+                <input type="radio" id="TRM" value="TRM" name="pilihan_rekomendasi" onchange="chooseProduct('TRM'); return false;"><label for="TRM" class="light">Memiliki tabungan untuk anak</label><br>
+              </div>
+              <div id="radio_KPR">
+                <input type="radio" id="KPR" value="KPR" name="pilihan_rekomendasi" onchange="chooseProduct('KPR'); return false;"><label for="KPR" class="light">Membeli Rumah</label><br>
+              </div>
+              <div id="radio_KSM">
+                <input type="radio" id="KSM" value="KSM" name="pilihan_rekomendasi" onchange="chooseProduct('KSM'); return false;"><label for="KSM" class="light">Menikah atau Renovasi Rumah</label><br>
+              </div>
+              <div id="radio_KKB">
+                <input type="radio" id="KKB" value="KKB" name="pilihan_rekomendasi" onchange="chooseProduct('KKB'); return false;"><label for="KKB" class="light">Membeli atau mengganti mobil</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset style="display: none;">  
+          
+            <legend><span class="number">2</span> Your Profile</legend>
+            
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="user_bio"></textarea>
+          
+            <label for="job">Job Role:</label>
+            <select id="job" name="user_job">
+              <optgroup label="Web">
+                <option value="frontend_developer">Front-End Developer</option>
+                <option value="php_developer">PHP Developer</option>
+                <option value="python_developer">Python Developer</option>
+                <option value="rails_developer">Rails Developer</option>
+                <option value="web_designer">Web Designer</option>
+                <option value="wordpress_developer">Wordpress Developer</option>
+              </optgroup>
+              <optgroup label="Mobile">
+                <option value="android_developer">Android Developer</option>
+                <option value="ios_developer">IOS Developer</option>
+                <option value="mobile_designer">Mobile Designer</option>
+              </optgroup>
+              <optgroup label="Business">
+                <option value="business_owner">Business Owner</option>
+                <option value="freelancer">Freelancer</option>
+              </optgroup>
+            </select>
+            
+            <label>Interests:</label>
+            <input type="checkbox" id="development" value="interest_development" name="user_interest"><label class="light" for="development">Development</label><br>
+            <input type="checkbox" id="design" value="interest_design" name="user_interest"><label class="light" for="design">Design</label><br>
+            <input type="checkbox" id="business" value="interest_business" name="user_interest"><label class="light" for="business">Business</label>
+            
+          </fieldset>
+          <p id="paragrafcoba"></p>
+          <button id="btn_submit" type="button" onclick="get_submit()" disabled = true style="background-color: #9c9999;">Submit</button>
+        </form>
+      </div>
+    </div>  
+  </body>
+</html>

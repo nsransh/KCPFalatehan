@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        function moveWA(){
+            return window.location.assign('https://wa.me/+6281281379250')
+        }
+    </script>
+</head>
+<body>
+    <h1>Data Form</h1>
+    <p id="name"></p>
+    <img id="imgProduct" src="kopra.png" alt="" height="150xp" width="250xp" onclick="moveWA()">
+    <script>
+        user_produk = localStorage.getItem('user_prodakTerpilih');
+        if(user_produk == "KK"){
+            srcFoto = "https://iili.io/HLQUyru.jpg"
+        }else if(user_produk == "TRM"){
+            srcFoto = "https://iili.io/HLQgRhN.jpg"
+        }else if(user_produk == "KSM"){
+            srcFoto = "https://iili.io/HLQgHdb.jpg"
+        }else if(user_produk == "KPR"){
+            srcFoto = "https://iili.io/HLQgfLP.jpg"
+        }else if(user_produk == "KKB"){
+            srcFoto = "https://iili.io/HLQgJ7j.jpg"
+        }
+        document.getElementById('name').textContent = user_produk;
+        document.getElementById('imgProduct').src = srcFoto;
+    </script>
+</body>
+</html>
