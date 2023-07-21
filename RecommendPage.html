@@ -9,12 +9,29 @@
         function moveWA(){
             return window.location.assign('https://wa.me/+6281281379250')
         }
+
+        function moveLinktree(){
+            user_produk = localStorage.getItem('user_prodakTerpilih');
+            linkTree = ""
+            if(user_produk == "KK"){
+                linkTree = "https://linktr.ee/KKFalatehan"
+            }else if(user_produk == "TRM"){
+                linkTree = "https://linktr.ee/mtrfalatehan"
+            }else if(user_produk == "KSM"){
+                linkTree = "https://linktr.ee/ksmfalatehan"
+            }else if(user_produk == "KPR"){
+                linkTree = "https://linktr.ee/kprfalatehan"
+            }else if(user_produk == "KKB"){
+                linkTree = "https://linktr.ee/kkbfalatehan"
+            }
+            return window.location.assign(linkTree)
+        }
     </script>
 </head>
 <body>
     <h1>Data Form</h1>
     <p id="name"></p>
-    <img id="imgProduct" src="" alt="" height="150xp" width="250xp" onclick="moveWA()">
+    <img id="imgProduct" src="" alt="" height="150xp" width="250xp" onclick="moveLinktree()">
     <script>
         user_produk = localStorage.getItem('user_prodakTerpilih');
         if(user_produk == "KK"){
