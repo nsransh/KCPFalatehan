@@ -5,27 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulir Survey Pelanggan</title>
     <link rel="stylesheet" type="text/css" href="tamplate2.css" />
-    
+
+    <!-- db -->
+    <script src= "https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"> </script>
+    <script src= "https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"> </script>
+    <!-- <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script> -->
+
+    <!-- kelola -->
     <script>
-      change = 0
-      gaji = 0
-      submit = 0
-      produk = []
-      overAge = false //umur
-      tetap = false //karyawan tetap bukan
-      under1 = false //masa kerja
-      under3 = false //gaji atas atau bawah 3
-      under5 = false //gaji atas atau bawah 5
-      nikah = false //apa sudah nikah
-      anak = false //untuk nanya tabungan anak = TRM
-      rumah = false //beli rumah
-      renovasi = false //renovasi rumah
-      kendaraan = false //beli kendaraan
-      
+
+
+      //========variabel===========
+      var change = 0;
+      var gaji = 0;
+      var sbt = 0;
+      var produk = [];
+      var overAge = false; //umur
+      var tetap = false; //karyawan tetap bukan
+      var under1 = false; //masa kerja
+      var under3 = false; //gaji atas atau bawah 3
+      var under5 = false; //gaji atas atau bawah 5
+      var nikah = false; //apa sudah nikah
+      var anak = false; //untuk nanya tabungan anak = TRM
+      var rumah = false; //beli rumah
+      var renovasi = false; //renovasi rumah
+      var kendaraan = false; //beli kendaraan
+
+      //==============DB=============
+      var firebaseConfig = {
+        apiKey: "AIzaSyBI_-2221TDB4AxzQTZucy1iV7CCreUkcM",
+        authDomain: "kcpfalatehan-321b7.firebaseapp.com",
+        projectId: "kcpfalatehan-321b7",
+        storageBucket: "kcpfalatehan-321b7.appspot.com",
+        messagingSenderId: "530190590397",
+        appId: "1:530190590397:web:64eecad95b0e597701f2d4",
+        databaseURL: "https://kcpfalatehan-321b7-default-rtdb.firebaseio.com/"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      //setup realtime db firebase
+      var database = firebase.database();
+      var dbRef = firebase.database().ref().child('users')
+
+
+      function submitForm() {
+        // Get values
+        var name = getInputVal('name');
+        var n_hp = getInputVal('noHp');
+
+        saveMessage(name, n_hp, under3, under5, tetap, under1, overAge, kendaraan, rumah, renovasi, nikah, anak, produk[0]);
+        document.getElementById('formulir_survey').reset();
+        console.log("masuk submit form")
+      }
+
+      // Function to get form values
+      function getInputVal(id) {
+        return document.getElementById(id).value;
+      }
+
+      // Save message to firebase
+      function saveMessage(uName, n_hp, gaji3, gaji5, kTetap, mk1, age, kdr, rmh, renov, nkh, ank, prdk) {
+        console.log("masuk save message")
+        dbRef.child(uName).push({
+          user_name: uName,
+          no_hp: n_hp,
+          gaji_3jt: gaji3,
+          gaji_5jt: gaji5,
+          karyawan_tetap: kTetap,
+          masa_kerja_1tahun: mk1,
+          age_21: age,
+          punya_kendaraan: kdr,
+          punya_rumah: rmh,
+          renovasi_rumah: renov,
+          sudah_menikah: nkh,
+          tabungan_anak: ank,
+          produk_rekomendasi: prdk
+        });
+        localStorage.setItem('status_firebase', "done");
+      }
+
+      //==============Logik============
 
       function showQuestionGeneral(id){
         if (id == 'over_21'){
-          overAge = true
+          overAge = true;
           document.getElementById("pertanyaanDasar").style.display = 'block';
           document.getElementById("pertanyaanDetail").style.display = 'none'
           document.getElementById("div_statusPegawai").style.display = 'block';
@@ -39,7 +103,7 @@
         } else{
           overAge = false
           document.getElementById("pertanyaanDasar").style.display = 'none';
-          document.getElementById("pertanyaanDetail").style.display = 'none'
+          document.getElementById("pertanyaanDetail").style.display = 'none';
           document.getElementById("btn_submit").disabled = false;
           document.getElementById("btn_submit").style.backgroundColor = "#4bc970";
         }
@@ -269,30 +333,33 @@
 
       function chooseProduct(id){
         produk = [id];
-        submit = 1;
+        sbt = 1;
       }
 
       function movePage(){
         console.log("masukmovePage");
         console.log(produk.length, change, gaji, overAge, tetap, under1, under3, under5, nikah, anak, rumah, renovasi, kendaraan);
         console.log(produk[0]);
+
+        submitForm()
         localStorage.setItem('user_prodakTerpilih', produk[0]);
         return window.location.assign('RecommendPage.html');
         
         //reset submit
         produk = [];
-        submit = 0;
+        sbt = 0;
       }
       
       function get_submit(){
         console.log("cek masuk submit!");
-        console.log(submit)
-        if (submit != 1){
+        console.log(sbt)
+        if (sbt != 1){
           chooseProdcutList();
         }
         produk = Array.from(new Set(produk))
         console.log("prodak list" + produk);
-        if(produk.length == 1){
+        console.log("find KK" + produk.includes("KK"))
+        if((produk.includes("KK") && produk.length == 2)||(produk.length == 1)){
           console.log("cek masuk submit! if 1");
           movePage();
         } else {
@@ -327,7 +394,7 @@
   <body>
     <div class="row">
       <div class="col-md-12">
-        <form>
+        <form id="formulir_survey">
           <h1> Survey Pelanggan </h1>
           
           <!-- profile awal nasabah -->
