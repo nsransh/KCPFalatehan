@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="tamplate2.css" />
+    <title>YourSolution</title>
 
     <script>
         function moveWA(){
@@ -29,9 +30,17 @@
     </script>
 </head>
 <body>
-    <h1>Data Form</h1>
-    <p id="name"></p>
-    <img id="imgProduct" src="" alt="" height="150xp" width="250xp" onclick="moveLinktree()">
+    <div class="row">
+        <div class="col-md-12" style="width: 100%; height: 200px;">
+          <form id="formulir_survey">
+            <h1>Solusi Finansialmu</h1>
+            <!-- <p id="name"></p> -->
+            <img id="imgProduct" src="" alt="" style="width: 100%; height: 100%;" onclick="moveLinktree()">
+            <p>Click Image for More Information</p>
+          </form>
+        </div>
+    </div>
+    
     <script>
         user_produk = localStorage.getItem('user_prodakTerpilih');
         if(user_produk == "KK"){
@@ -45,7 +54,7 @@
         }else if(user_produk == "KKB"){
             srcFoto = "https://iili.io/HLQgJ7j.jpg"
         }
-        document.getElementById('name').textContent = user_produk;
+        // document.getElementById('name').textContent = user_produk;
         document.getElementById('imgProduct').src = srcFoto;
     </script>
 </body>
