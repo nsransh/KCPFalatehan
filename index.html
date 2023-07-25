@@ -310,19 +310,27 @@
         console.log("masuk choose product list")
         if  (overAge == true){
           if (tetap == true){
-            if (under3 == true){
-              produk.push("TRM")
-            }
-            else if (under3 == false && gaji == 3){
-              pushArray3()
-            }
-            else if (under5 == false && gaji == 5){
-              pushArray()
+            if (under1 == false){
+              if (under3 == true){
+                produk.push("TRM")
+              }
+              else if (under3 == false && gaji == 3){
+                pushArray3()
+              }
+              else if (under5 == false && gaji == 5){
+                pushArray()
+              }
+            }else {
+              if(under5 == true){
+                produk.push("TRM")
+              } else{
+                produk.push("KK")
+              }
             }
           } else {
             if(under5 == true){
               produk.push("TRM")
-            } else{
+            } else {
               produk.push("KK")
             }
           }
